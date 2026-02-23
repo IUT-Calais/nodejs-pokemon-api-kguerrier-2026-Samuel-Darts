@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PokemonType {
+  Normal
+  Fire
+  Water
+  Electric
+  Grass
+  Ice
+  Fighting
+  Poison
+  Ground
+  Flying
+  Psychic
+  Bug
+  Rock
+  Ghost
+  Dragon
+  Dark
+  Steel
+  Fairy
+}
+
+model PokemonCard {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  pokedexId  Int         @unique
+  type       PokemonType
+  lifePoints Int
+  size       Float?
+  weight     Float?
+  imageUrl   String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  deckCards  DeckCard[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  decks     Deck[]
+}
+
+model Deck {
+  id        Int        @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deckCards DeckCard[]
+}
+
+model DeckCard {
+  id            Int         @id @default(autoincrement())
+  deckId        Int
+  pokemonCardId Int
+  deck          Deck        @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  pokemonCard   PokemonCard @relation(fields: [pokemonCardId], references: [id], onDelete: Cascade)
+}
