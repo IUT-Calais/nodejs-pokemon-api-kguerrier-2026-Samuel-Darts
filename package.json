@@ -1,7 +1,8 @@
+
 {
   "name": "template-tcg-api",
   "version": "1.0.0",
-  "author": "",
+  "author": "Samuel Dartois",
   "description": "TCG Pokemon-like Backend Server",
   "main": "dist/index.js",
   "scripts": {
