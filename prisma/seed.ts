@@ -4,7 +4,7 @@ import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Créer l'utilisateur admin du TP
+  // Créer l'utilisateur admin du TP avec mot de passe hashé
   const hashedPassword = await bcryptjs.hash('admin', 10);
   const user = await prisma.user.upsert({
     where: { email: 'admin@gmail.com' },
@@ -15,7 +15,7 @@ async function main() {
     },
   });
 
-  // Créer quelques pokémons du TP
+  // Initialiser la base de données avec les pokémons de référence
   const pokemonCards = [
     {
       name: 'Pikachu',
@@ -27,7 +27,7 @@ async function main() {
       imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png',
     },
     {
-      name: 'Charizard',
+      name: 'Dracaufeu',
       pokedexId: 6,
       type: PokemonType.Fire,
       lifePoints: 78,
@@ -36,7 +36,7 @@ async function main() {
       imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png',
     },
     {
-      name: 'Blastoise',
+      name: 'Tortank',
       pokedexId: 9,
       type: PokemonType.Water,
       lifePoints: 79,
@@ -45,7 +45,7 @@ async function main() {
       imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png',
     },
     {
-      name: 'Venusaur',
+      name: 'Florizarre',
       pokedexId: 3,
       type: PokemonType.Grass,
       lifePoints: 80,
@@ -54,7 +54,7 @@ async function main() {
       imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png',
     },
     {
-      name: 'Dragonite',
+      name: 'Dracolosse',
       pokedexId: 149,
       type: PokemonType.Dragon,
       lifePoints: 91,
@@ -64,6 +64,7 @@ async function main() {
     },
   ];
 
+  // Créer ou ignorer si déjà existant
   for (const pokemon of pokemonCards) {
     await prisma.pokemonCard.upsert({
       where: { pokedexId: pokemon.pokedexId },
