@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma';
+import { PrismaClient, PokemonType } from '../src/generated/prisma';
 import bcryptjs from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -20,7 +20,7 @@ async function main() {
     {
       name: 'Pikachu',
       pokedexId: 25,
-      type: 'Electric',
+      type: PokemonType.Electric,
       lifePoints: 35,
       size: 0.4,
       weight: 6.0,
@@ -29,7 +29,7 @@ async function main() {
     {
       name: 'Charizard',
       pokedexId: 6,
-      type: 'Fire',
+      type: PokemonType.Fire,
       lifePoints: 78,
       size: 1.7,
       weight: 90.5,
@@ -38,7 +38,7 @@ async function main() {
     {
       name: 'Blastoise',
       pokedexId: 9,
-      type: 'Water',
+      type: PokemonType.Water,
       lifePoints: 79,
       size: 1.6,
       weight: 85.5,
@@ -47,7 +47,7 @@ async function main() {
     {
       name: 'Venusaur',
       pokedexId: 3,
-      type: 'Grass',
+      type: PokemonType.Grass,
       lifePoints: 80,
       size: 2.0,
       weight: 100.0,
@@ -56,7 +56,7 @@ async function main() {
     {
       name: 'Dragonite',
       pokedexId: 149,
-      type: 'Dragon',
+      type: PokemonType.Dragon,
       lifePoints: 91,
       size: 2.2,
       weight: 210.0,
