@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
 import prisma from '../src/client';
-import { stopServer } from '../src';
 
 // Mock de PrismaClient
 jest.mock('../src/client', () => ({
@@ -21,23 +20,20 @@ jest.mock('jsonwebtoken', () => ({
   sign: jest.fn(() => 'mockedToken'), // Mock de la fonction sign
 }));
 
-jest.mock('bcrypt', () => ({
-  ...jest.requireActual('bcrypt'),
-  compare: jest.fn((password, cryptedPassword) => {
+jest.mock('bcryptjs', () => ({
+  ...jest.requireActual('bcryptjs'),
+  hash: jest.fn((_password, _rounds) => Promise.resolve('hashedPassword')),
+  compare: jest.fn((password, _cryptedPassword) => {
     if (password === 'truePassword') {
-      return true;
+      return Promise.resolve(true);
     }
-    return false;
+    return Promise.resolve(false);
   }),
 }));
 
 beforeEach(() => {
   mockReset(prismaMock);
   jest.clearAllMocks();
-});
-
-afterAll(() => {
-  stopServer();
 });
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;

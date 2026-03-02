@@ -199,7 +199,7 @@ pokemonCardsRouter.delete('/pokemon-cards/:pokemonCardId', authMiddleware, async
       where: { id },
     });
 
-    res.status(200).json({ message: 'Pokémon supprimé avec succès' });
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'Erreur serveur' });
   }

@@ -16,11 +16,28 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/', pokemonCardsRouter);
 app.use('/', usersRouter);
 
-export const server = app.listen(port, () => {
-  console.log(`Serveur lancé sur http://localhost:${port}`);
-  console.log(`Documentation disponible sur http://localhost:${port}/api-docs`);
-});
+let server: any;
+
+const startServer = () => {
+  if (!server) {
+    server = app.listen(port, () => {
+      console.log(`Serveur lancé sur http://localhost:${port}`);
+      console.log(`Documentation disponible sur http://localhost:${port}/api-docs`);
+    });
+  }
+  return server;
+};
+
+export { startServer };
 
 export function stopServer() {
-  server.close();
+  if (server) {
+    server.close();
+    server = null;
+  }
+}
+
+// Lancer le serveur uniquement si le fichier est exécuté directement (pas lors d'un import)
+if (require.main === module) {
+  startServer();
 }
